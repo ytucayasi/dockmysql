@@ -581,7 +581,7 @@ INSERT INTO compras (id, fecha_compra, proveedor_id, tienda_id) VALUES
 (1, '2023-01-05', 1, 1),
 (2, '2023-02-07', 2, 3),
 (3, '2023-03-10', 3, 4),
-(4, '2023-04-15', 4, 4);
+(4, '2023-04-15', 4, 4),
 (5, '2023-04-30', 4, 2);
 
 -- Data de compras
@@ -611,7 +611,7 @@ INSERT INTO ventas_productos (cantidad, venta_id, producto_id) VALUES
 (2, 12, 23),
 (1, 12, 24),
 (3, 13, 25),
-(2, 13, 26);
+(2, 13, 26),
 (1, 14, 27),
 (4, 14, 28),
 (2, 15, 29),
@@ -637,7 +637,7 @@ INSERT INTO ventas_productos (cantidad, venta_id, producto_id) VALUES
 (3, 25, 49),
 (2, 25, 50),
 (1, 26, 51),
-(4, 26, 52);
+(4, 26, 52),
 (2, 27, 53),
 (1, 27, 54),
 (3, 28, 55),
@@ -711,7 +711,7 @@ INSERT INTO ventas_productos (cantidad, venta_id, producto_id) VALUES
 (3, 62, 23),
 (2, 62, 24),
 (1, 63, 25),
-(4, 63, 26);
+(4, 63, 26),
 (2, 64, 27),
 (1, 64, 28),
 (3, 65, 29),
@@ -893,7 +893,7 @@ INSERT INTO compras_productos (cantidad, compra_id, producto_id) VALUES
 (27, 5, 87),
 (18, 5, 88),
 (20, 5, 89),
-(30, 5, 90);
+(30, 5, 90),
 (21, 5, 91),
 (30, 5, 92),
 (13, 5, 93),
@@ -914,12 +914,3 @@ INSERT INTO compras_productos (cantidad, compra_id, producto_id) VALUES
 (20, 5, 28),
 (20, 5, 29),
 (10, 5, 30);
-
-
-
-
-
-
-
-
-
