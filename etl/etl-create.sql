@@ -15,6 +15,14 @@ CREATE TABLE dtienda (
   direccion VARCHAR(200) NOT NULL
 );
 
+CREATE TABLE hinventario (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom_producto VARCHAR(100) NOT NULL,
+  nom_tienda VARCHAR(100) NOT NULL,
+  stock_actual INT NOT NULL,
+  fecha_actualizacion DATE NOT NULL
+);
+
 CREATE TABLE dtiempo (
   id INT PRIMARY KEY AUTO_INCREMENT,
   fecha date DEFAULT NULL,
@@ -33,10 +41,18 @@ CREATE TABLE dproveedor (
   nombre VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE dpedido (
+CREATE TABLE hpedido (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cantidad_ventas DECIMAL(9,2) DEFAULT NULL,
   cantidad_unidades DECIMAL(9,2) DEFAULT NULL,
   ingreso_total DECIMAL(9,2) DEFAULT NULL,
   cantidad_clientes DECIMAL(9,2) DEFAULT NULL
+);
+
+CREATE TABLE hcompra (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  cantidad_compras DECIMAL(9, 2) DEFAULT NULL,
+  cantidad_unidades DECIMAL(9, 2) DEFAULT NULL,
+  gasto_total DECIMAL(9, 2) DEFAULT NULL,
+  cantidad_proveedores DECIMAL(9, 2) DEFAULT NULL
 );

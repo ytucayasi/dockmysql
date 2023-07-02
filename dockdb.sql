@@ -30,6 +30,7 @@
     stock INT NOT NULL,
     tienda_id INT NOT NULL,
     producto_id INT NOT NULL,
+    fecha_actualizacion DATE NOT NULL,
     FOREIGN KEY (tienda_id) REFERENCES tiendas(id),
     FOREIGN KEY (producto_id) REFERENCES productos(id)
   );
