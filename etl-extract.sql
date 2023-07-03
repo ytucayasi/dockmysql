@@ -16,7 +16,7 @@ SELECT
   direccion,
   telefono
 FROM
-  dockdb.proveedor;
+  dockdb.proveedores;
 
 -- dproducto
 INSERT INTO
