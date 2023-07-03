@@ -37,6 +37,7 @@ CREATE TABLE hventa (
     nombre_cliente INT NOT NULL,
     producto_id INT NOT NULL,
     nombre_producto VARCHAR(100),
+    cantidad_clientes INT NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES dcliente(id),
     FOREIGN KEY (producto_id) REFERENCES dproducto(id)
 );
@@ -55,6 +56,7 @@ CREATE TABLE hcompra (
     nombre_proveedor INT NOT NULL,
     producto_id INT NOT NULL,
     nombre_producto VARCHAR(100),
+    cantidad_proveedores INT NOT NULL,
     FOREIGN KEY (proveedor_id) REFERENCES dproveedor(id),
     FOREIGN KEY (producto_id) REFERENCES dproducto(id)
 );

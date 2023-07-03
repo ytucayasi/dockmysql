@@ -53,7 +53,8 @@ INSERT INTO
     cliente_id,
     nombre_cliente,
     producto_id,
-    nombre_producto
+    nombre_producto,
+    cantidad_clientes
   )
 SELECT
   v.id AS id,
@@ -69,7 +70,8 @@ SELECT
   v.cliente_id,
   c.nombre,
   dv.producto_id,
-  p.nombre
+  p.nombre,
+  COUNT(DISTINCT v.cliente_id) AS cantidad_clientes
 FROM
   dockdb.ventas v
   JOIN dockdb.det_ventas dv ON v.id = dv.venta_id
@@ -91,7 +93,8 @@ INSERT INTO
     proveedor_id,
     nombre_proveedor,
     producto_id,
-    nombre_producto
+    nombre_producto,
+    cantidad_proveedores
   )
 SELECT
   c.id AS id,
@@ -111,7 +114,8 @@ SELECT
   c.proveedor_id,
   pr.nombre,
   dv.producto_id,
-  p.nombre
+  p.nombre,
+  COUNT(DISTINCT c.proveedor_id) AS cantidad_proveedores
 FROM
   dockdb.compras c
   JOIN dockdb.det_compras dc ON dc.compra_id = c.id
