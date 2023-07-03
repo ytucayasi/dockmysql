@@ -37,6 +37,7 @@ CREATE TABLE ventas (
 );
 
 CREATE TABLE det_ventas (
+  id INT PRIMARY KEY AUTO_INCREMENT,
   cantidad INT NOT NULL,
   descuento DECIMAL(10, 2) NOT NULL,
   precio DECIMAL(10, 2) NOT NULL,
@@ -55,6 +56,7 @@ CREATE TABLE compras (
 );
 
 CREATE TABLE det_compras (
+  id INT PRIMARY KEY AUTO_INCREMENT,
   cantidad INT NOT NULL,
   costo DECIMAL(10, 2) NOT NULL,
   compra_id INT NOT NULL,
