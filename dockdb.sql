@@ -1,11 +1,4 @@
-use dockdb;
-
-CREATE TABLE tiendas (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL,
-  direccion VARCHAR(200) NOT NULL,
-  telefono VARCHAR(15) NOT NULL
-);
+USE dockdb;
 
 CREATE TABLE categorias (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -16,6 +9,8 @@ CREATE TABLE productos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
   marca VARCHAR(100) NOT NULL,
+  precio_inicial DECIMAL(10, 2) NOT NULL,
+  stock INT NOT NULL,
   categoria_id INT NOT NULL,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id)
 );
@@ -30,7 +25,6 @@ CREATE TABLE clientes (
 CREATE TABLE proveedores (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
-  ruc VARCHAR(100) NOT NULL,
   direccion VARCHAR(200) NOT NULL,
   telefono VARCHAR(15) NOT NULL
 );
@@ -39,15 +33,12 @@ CREATE TABLE ventas (
   id INT PRIMARY KEY AUTO_INCREMENT,
   fecha_venta DATE NOT NULL,
   cliente_id INT NOT NULL,
-  tienda_id INT NOT NULL,
-  FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-  FOREIGN KEY (tienda_id) REFERENCES tiendas(id)
+  FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 
-CREATE TABLE venta_productos (
+CREATE TABLE det_ventas (
   cantidad INT NOT NULL,
   descuento DECIMAL(10, 2) NOT NULL,
-  costo DECIMAL(10, 2) NOT NULL,
   precio DECIMAL(10, 2) NOT NULL,
   igv DECIMAL(10, 2) NOT NULL,
   venta_id INT NOT NULL,
@@ -60,14 +51,12 @@ CREATE TABLE compras (
   id INT PRIMARY KEY AUTO_INCREMENT,
   fecha_compra DATE NOT NULL,
   proveedor_id INT NOT NULL,
-  tienda_id INT NOT NULL,
-  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
-  FOREIGN KEY (tienda_id) REFERENCES tiendas(id)
+  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
 );
 
-CREATE TABLE compra_productos (
+CREATE TABLE det_compras (
   cantidad INT NOT NULL,
-  costo INT NOT NULL,
+  costo DECIMAL(10, 2) NOT NULL,
   compra_id INT NOT NULL,
   producto_id INT NOT NULL,
   FOREIGN KEY (compra_id) REFERENCES compras(id),
