@@ -9,8 +9,7 @@ CREATE TABLE productos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
   marca VARCHAR(100) NOT NULL,
-  precio_inicial DECIMAL(10, 2) NOT NULL,
-  stock INT NOT NULL,
+  monto_ideal DECIMAL(10, 2) NOT NULL,
   categoria_id INT NOT NULL,
   FOREIGN KEY (categoria_id) REFERENCES categorias(id)
 );
@@ -59,6 +58,8 @@ CREATE TABLE det_compras (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cantidad INT NOT NULL,
   costo DECIMAL(10, 2) NOT NULL,
+  igv DECIMAL(10, 2) NOT NULL,
+  estado CHAR(1) NOT NULL,
   compra_id INT NOT NULL,
   producto_id INT NOT NULL,
   FOREIGN KEY (compra_id) REFERENCES compras(id),
