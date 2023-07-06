@@ -1,3 +1,5 @@
+use dockdbetl;
+
 CREATE TABLE dproducto (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -5,7 +7,7 @@ CREATE TABLE dproducto (
     monto_ideal DECIMAL(10, 2) NOT NULL,
     categoria_id INT NOT NULL,
     nombre_categoria VARCHAR(100) NOT NULL,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+    FOREIGN KEY (categoria_id) REFERENCES dockdb.categorias(id)
 );
 
 CREATE TABLE dcliente (
