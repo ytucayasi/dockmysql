@@ -40,7 +40,6 @@ FROM
   JOIN dockdb.categorias c ON p.categoria_id = c.id;
 
 INSERT INTO hventa (
-  id,
   fecha_venta,
   cantidad,
   descuento_unidad,
@@ -57,7 +56,6 @@ INSERT INTO hventa (
   cantidad_clientes
 )
 SELECT
-  v.id AS id,
   v.fecha_venta AS fecha_venta,
   SUM(dv.cantidad) AS cantidad,
   MAX(dv.descuento) AS descuento_unidad,
@@ -80,7 +78,6 @@ FROM
 GROUP BY v.id, v.fecha_venta, v.cliente_id, c.nombre, dv.producto_id, p.nombre;
 
 INSERT INTO hcompra (
-  id,
   fecha_compra,
   cantidad,
   costo,
@@ -96,7 +93,6 @@ INSERT INTO hcompra (
   cantidad_proveedores
 )
 SELECT
-  c.id AS id,
   c.fecha_compra AS fecha_compra,
   SUM(dc.cantidad) AS cantidad,
   MAX(dc.costo) AS costo,
