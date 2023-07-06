@@ -1,3 +1,5 @@
+use dockdbetl;
+
 -- dcliente
 INSERT INTO
   dcliente (nombre, direccion, telefono)
@@ -23,50 +25,48 @@ INSERT INTO
   dproducto (
     nombre,
     marca,
-    precio_inicial,
+    monto_ideal,
     categoria_id,
     nombre_categoria
   )
 SELECT
-  nombre,
-  marca,
-  precio_inicial,
-  categoria_id,
-  c.nombre
+  p.nombre,
+  p.marca,
+  p.monto_ideal,
+  p.categoria_id,
+  c.nombre AS nombre_categoria
 FROM
   dockdb.productos p
   JOIN dockdb.categorias c ON p.categoria_id = c.id;
 
--- hventa
-INSERT INTO
-  hventa (
-    id,
-    fecha_venta,
-    cantidad,
-    descuento_unidad,
-    descuento_total,
-    precio,
-    monto_ideal,
-    igv,
-    ingreso_total,
-    ganancia,
-    cliente_id,
-    nombre_cliente,
-    producto_id,
-    nombre_producto,
-    cantidad_clientes
-  )
+INSERT INTO hventa (
+  id,
+  fecha_venta,
+  cantidad,
+  descuento_unidad,
+  descuento_total,
+  precio,
+  monto_ideal,
+  igv,
+  ingreso_total,
+  ganancia,
+  cliente_id,
+  nombre_cliente,
+  producto_id,
+  nombre_producto,
+  cantidad_clientes
+)
 SELECT
   v.id AS id,
   v.fecha_venta AS fecha_venta,
-  dv.cantidad AS cantidad,
-  dv.descuento AS descuento_unidad,
-  (dv.descuento * dv.cantidad) AS descuento_total,
-  dv.precio AS precio,
-  p.monto_ideal AS monto_ideal,
-  (dv.precio * dv.cantidad * dv.igv) AS igv,
-  ((dv.precio - dv.descuento) * dv.cantidad) AS ingreso_total,
-  (p.monto_ideal - dv.precio) AS ganancia,
+  SUM(dv.cantidad) AS cantidad,
+  MAX(dv.descuento) AS descuento_unidad,
+  SUM(dv.descuento * dv.cantidad) AS descuento_total,
+  MAX(dv.precio) AS precio,
+  MAX(p.monto_ideal) AS monto_ideal,
+  SUM(dv.precio * dv.cantidad * dv.igv) AS igv,
+  SUM((dv.precio - dv.descuento) * dv.cantidad) AS ingreso_total,
+  MAX(p.monto_ideal - dv.precio) AS ganancia,
   v.cliente_id,
   c.nombre,
   dv.producto_id,
@@ -76,48 +76,48 @@ FROM
   dockdb.ventas v
   JOIN dockdb.det_ventas dv ON v.id = dv.venta_id
   JOIN dockdb.clientes c ON v.cliente_id = c.id
-  JOIN dockdb.productos p ON dv.producto_id = p.id;
+  JOIN dockdb.productos p ON dv.producto_id = p.id
+GROUP BY v.id, v.fecha_venta, v.cliente_id, c.nombre, dv.producto_id, p.nombre;
 
--- hcompra
-INSERT INTO
-  hcompra (
-    id,
-    fecha_compra,
-    cantidad,
-    costo,
-    monto_ideal,
-    igv,
-    estado,
-    salida_total,
-    gasto,
-    proveedor_id,
-    nombre_proveedor,
-    producto_id,
-    nombre_producto,
-    cantidad_proveedores
-  )
+INSERT INTO hcompra (
+  id,
+  fecha_compra,
+  cantidad,
+  costo,
+  monto_ideal,
+  igv,
+  estado,
+  salida_total,
+  gasto,
+  proveedor_id,
+  nombre_proveedor,
+  producto_id,
+  nombre_producto,
+  cantidad_proveedores
+)
 SELECT
   c.id AS id,
   c.fecha_compra AS fecha_compra,
-  dc.cantidad AS cantidad,
-  dc.costo AS costo,
-  p.monto_ideal AS monto_ideal,
-  (dc.costo * dc.cantidad * dc.igv) AS igv,
+  SUM(dc.cantidad) AS cantidad,
+  MAX(dc.costo) AS costo,
+  MAX(p.monto_ideal) AS monto_ideal,
+  SUM(dc.costo * dc.cantidad * dc.igv) AS igv,
   CASE
-    WHEN dc.estado = 'M' THEN 1
-    WHEN dc.estado = 'N' THEN 2
-    WHEN dc.estado = 'B' THEN 3
+    WHEN MAX(dc.estado) = 'M' THEN 1
+    WHEN MAX(dc.estado) = 'N' THEN 2
+    WHEN MAX(dc.estado) = 'B' THEN 3
     ELSE 0
   END AS estado,
-  (dc.costo * dc.cantidad) AS salida_total,
-  (p.monto_ideal - dc.costo) AS gasto,
+  SUM(dc.costo * dc.cantidad) AS salida_total,
+  MAX(p.monto_ideal - dc.costo) AS gasto,
   c.proveedor_id,
   pr.nombre,
-  dv.producto_id,
+  dc.producto_id,
   p.nombre,
   COUNT(DISTINCT c.proveedor_id) AS cantidad_proveedores
 FROM
   dockdb.compras c
   JOIN dockdb.det_compras dc ON dc.compra_id = c.id
   JOIN dockdb.proveedores pr ON c.proveedor_id = pr.id
-  JOIN dockdb.productos p ON dc.producto_id = p.id;
+  JOIN dockdb.productos p ON dc.producto_id = p.id
+GROUP BY c.id, c.fecha_compra, c.proveedor_id, pr.nombre, dc.producto_id, p.nombre;
