@@ -64,7 +64,7 @@ SELECT
   MAX(p.monto_ideal) AS monto_ideal,
   SUM(dv.precio * dv.cantidad * dv.igv) AS igv,
   SUM((dv.precio - dv.descuento) * dv.cantidad) AS ingreso_total,
-  MAX(p.monto_ideal - dv.precio) AS ganancia,
+  SUM(dv.precio - p.monto_ideal) AS ganancia,
   v.cliente_id,
   c.nombre,
   dv.producto_id,
